@@ -1,0 +1,135 @@
+Pytest CLI commands you can use to run, filter, debug, and report on your test files.
+
+-------------------------------------------------------------------------------------------------
+
+Basic Test Execution:
+---------------------
+Command	                                        Description
+pytest	                                        Run all tests in the current directory
+pytest test_file.py	                            Run tests in a specific file
+pytest dir/	                                    Run tests in a specific directory
+pytest test_file.py::test_func	                Run a specific test function
+pytest test_file.py::TestClass::test_method	    Run a specific method inside a class
+
+
+-------------------------------------------------------------------------------------------------
+
+Filtering & Selection:
+-----------------------
+Command                 	Description
+pytest -k "expression"	    Run tests matching a keyword (e.g. -k "login and not logout")
+pytest -m marker_name	    Run tests with a specific marker (e.g. @pytest.mark.smoke)
+pytest --maxfail=2	        Stop after 2 failures
+pytest --lf	                Run only tests that failed last time
+pytest --ff	                Run failed tests first, then the rest
+pytest --collect-only	    Show which tests would run, without executing them
+
+--------------------------------------------------------------------------------------------------
+
+Output & Debugging:
+--------------------
+Command	                Description
+pytest -v	            Verbose output (shows test names)
+pytest -q	            Quiet output
+pytest -s	            Show print() output during tests
+pytest --tb=short	    Short traceback on failure
+pytest --tb=line	    One-line traceback
+pytest --tb=long	    Full traceback (default)
+pytest --pdb	        Drop into debugger on failure
+pytest --capture=no	    Disable output capturing (shows all prints/logs)
+
+-----------------------------------------------------------------------------------------------
+
+Reporting & Profiling:
+----------------------
+Command                     	Description
+pytest --durations=10	        Show 10 slowest tests
+pytest --html=report.html	    Generate HTML report (with pytest-html plugin)
+pytest --junitxml=report.xml	Generate JUnit XML report
+pytest --cov=your_module	    Show coverage report (with pytest-cov)
+
+------------------------------------------------------------------------------------------------
+
+Plugin Management:
+------------------
+Command	                    Description
+pytest -p plugin_name	    Load a specific plugin
+pytest -p no:plugin_name	Disable a plugin (e.g. no:doctest)
+
+------------------------------------------------------------------------------------------------
+
+Miscellaneous:
+--------------
+Command	                Description
+pytest --version	    Show Pytest version
+pytest --fixtures	    List available fixtures
+pytest -h or --help	    Show help message
+
+-------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------
+
+
+Optional Enhancements to Your Pytest CLI Command Guide ------>
+
+1. Test Tagging and Custom Markers :
+
+Show how to register and use custom markers in pytest.ini:
+
+in ini
+# pytest.ini -->
+[pytest]
+markers =
+    smoke: quick checks on core functionality
+    regression: test for known bugs
+    slow: long-running test
+Run all smoke tests:
+
+in bash -->
+pytest -m smoke
+
+-----------------------------------------------------------------------------------------------------
+
+2. Using conftest.py :
+Mention that you can place fixtures in a conftest.py file
+for shared use across multiple test files—no need to import manually.
+
+-----------------------------------------------------------------------------------------------------
+
+3. Running Tests in Parallel :
+
+With pytest-xdist plugin:
+
+pytest -n 4  # Runs tests using 4 CPUs
+Perfect for speeding up large suites!
+
+-----------------------------------------------------------------------------------------------------
+
+4. Re-running Failed Tests Automatically :
+
+Install pytest-rerunfailures and use:
+
+pytest --reruns 2 --reruns-delay 5
+Retries flaky tests up to 2 times with a 5-second delay.
+
+-----------------------------------------------------------------------------------------------------
+
+5. Profile Test Runtime :
+
+pytest --durations=5
+Reports the 5 slowest test executions—great for optimization.
+
+------------------------------------------------------------------------------------------------------
+
+6. Dry Run with No Execution :
+
+pytest --collect-only
+Useful for checking which tests would be collected by Pytest before running them.
+
+------------------------------------------------------------------------------------------------------
+
+7. Disabling Warnings or Debugging Failures :
+
+pytest -p no:warnings
+pytest --pdb  # Enter debugger on failure
+
+--------------------------------------------------------------------------------------------------------
