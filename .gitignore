@@ -1,0 +1,39 @@
+# Bytecode and cache
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+env/
+ENV/
+*.env
+
+# Test and coverage reports
+.pytest_cache/
+.tox/
+.coverage
+.cache/
+htmlcov/
+
+# IDE settings
+.idea/
+.vscode/
+*.iml
+
+# Logs and temp files
+*.log
+*.tmp
+*.bak
+
+# Distribution files
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+
+# OS-specific
+.DS_Store
+Thumbs.db
