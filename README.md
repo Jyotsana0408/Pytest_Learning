@@ -1,4 +1,4 @@
-# 🧪 Pytest Tutorial Series
+# 🧪 Pytest Learning Series
 
 Welcome to the Pytest Learning Series!
 This repository documents a hands-on journey through core Pytest concepts, automation techniques, and testing strategies using Python—perfect for QA engineers, developers, or curious coders.
