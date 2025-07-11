@@ -52,7 +52,37 @@ Running Tests by Marker -->
     pytest -v -m sanity
     pytest -v -m "sanity or regression"
     pytest -v -m "not regression"
+
+Decorators:
+    In Pytest, decorators are used to modify or enhance the behavior of test functions.
+    They’re especially handy for parametrization, skipping tests, marking expected failures, and more.
+
+Common Pytest Decorators
+    Decorator	                            Purpose
+    @pytest.mark.parametrize	            Run a test with multiple sets of inputs
+    @pytest.mark.skip	                    Skip a test unconditionally
+    @pytest.mark.skipif(condition, reason)	Skip a test if a condition is met
+    @pytest.mark.xfail	                    Mark a test as expected to fail
+    @pytest.fixture	                        Define setup/teardown logic for tests
+
+Custom Decorators in Pytest :
+    You can also write your own decorators to wrap test logic.
+    For example, if you want to log or modify behavior before a test runs:
+
+    from functools import wraps
+
+    def log_test(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            print(f"Running test: {func.__name__}")
+            return func(*args, **kwargs)
+        return wrapper
+
+    @log_test
+    def test_sample():
+        assert True
 """
+
 import sys
 import time
 import pytest
