@@ -1,0 +1,252 @@
+Pytest interview questions and answers across key topics to help you prep like a pro:
+
+Pytest Basics --->
+
+-----------------------------------------------------------------------------------------------------------
+What is Pytest?
+Pytest is a Python testing framework used for writing simple unit tests and complex functional tests.
+It supports fixtures, parameterization, plugins, and automatic test discovery.
+
+
+How do you install Pytest?
+Run pip install pytest in your terminal.
+
+How do you write a basic test case?
+def test_addition():
+    assert 1 + 1 == 2
+
+How do you run tests?
+Use the command pytest in the terminal.
+You can also run specific files or functions like pytest test_file.py::test_function.
+-----------------------------------------------------------------------------------------------------------
+
+Assertion --->
+
+-----------------------------------------------------------------------------------------------------------
+What is an assert in Pytest?
+In Pytest, assert is used to check if a condition is true.
+If it's false, the test fails and Pytest shows a detailed error message using introspection.
+
+def test_sum():
+    assert 1 + 1 == 2  # Passes
+    assert 2 * 2 == 5  # Fails with detailed output
+
+How does Pytest improve the default assert behavior?
+Pytest rewrites assert statements to give clear failure messages.
+It shows the values involved in the failed comparison, making debugging easier.
+
+Example failure:
+
+assert 3 == 4
+E       assert 3 == 4
+
+Can you assert exceptions in Pytest?
+Yes! Use pytest.raises() to check if a specific exception is raised.
+
+import pytest
+
+def test_zero_division():
+    with pytest.raises(ZeroDivisionError):
+        1 / 0
+
+You can also check the error message:
+
+with pytest.raises(ValueError) as excinfo:
+    raise ValueError("Invalid input")
+assert str(excinfo.value) == "Invalid input"
+
+How do you assert that a value is in a list or dictionary?
+
+def test_membership():
+    assert 3 in [1, 2, 3]
+    assert "key" in {"key": "value"}
+
+How do you assert multiple conditions?
+
+You can use logical operators like and / or:
+
+def test_multiple():
+    assert 2 > 1 and 3 < 5
+
+What happens when an assert fails in Pytest?
+
+Pytest raises an AssertionError and shows a detailed traceback with the values involved in the failed assertion.
+
+How do you assert warnings in Pytest?
+
+Use pytest.warns() to check if a warning is raised.
+
+import warnings
+import pytest
+
+def test_warning():
+    with pytest.warns(UserWarning):
+        warnings.warn("This is a warning",UserWarning)
+-------------------------------------------------------------------------------------------------------------
+
+Fixtures --->
+
+-------------------------------------------------------------------------------------------------------------
+
+What are fixtures in Pytest?
+Fixtures are reusable setups for tests.
+They help initialize resources like databases, files, or configurations before a test runs.
+It’s defined using @pytest.fixture and passed as an argument to your test function.
+
+How do you define and use a fixture?
+import pytest
+
+@pytest.fixture
+def sample_data():
+    return {"name": "Alice"}
+
+def test_user(sample_data):
+    assert sample_data["name"] == "Alice"
+
+What is fixture scope?
+Scope determines how often a fixture is invoked. Options: function, class, module, session.
+
+Can fixtures be parameterized?
+Yes! You can use @pytest.fixture(params=[...]) to run the same test with different inputs.
+
+@pytest.fixture(params=[1, 2, 3])
+def number(request):
+    return request.param
+
+How do you use a fixture in a test?
+Just pass the fixture name as an argument to your test function.
+Pytest will automatically call the fixture and inject its return value.
+
+def test_greeting(sample_data):
+    assert sample_data["name"] == "Alice"
+
+What is conftest.py?
+A special file to define shared fixtures across multiple test files.
+
+What is the purpose of conftest.py?
+conftest.py is a special file where you define fixtures that are shared across multiple test files.
+Pytest automatically discovers it, so you don’t need to import fixtures manually.
+-----------------------------------------------------------------------------------------------------
+
+Parameterization --->
+
+-----------------------------------------------------------------------------------------------------
+What is parametrization in Pytest?
+Parametrization lets you run the same test function with different sets of input data.
+It helps reduce code duplication and increases test coverage.
+
+How do you parametrize tests?
+
+@pytest.mark.parametrize("input,expected", [(1, 2), (2, 3)])
+def test_increment(input, expected):
+    assert input + 1 == expected
+
+Why use parameterization?
+It reduces redundancy and increases test coverage by running the same logic with multiple inputs.
+
+What are the benefits of parametrization?
+
+Avoids repetitive test code
+Improves test coverage
+Makes tests easier to maintain
+Helps test edge cases and multiple scenarios
+
+How do you skip a test?
+Use @pytest.mark.skip or pytest.skip("reason") inside the test.
+
+What is xfail? Marks a test as expected to fail:
+
+@pytest.mark.xfail
+def test_known_bug():
+    assert 1 / 0 == 1
+
+--------------------------------------------------------------------------------------------------------
+
+Monkeypatching --->
+
+--------------------------------------------------------------------------------------------------------
+
+What is monkeypatching in Pytest?
+It allows you to temporarily change or mock objects, functions, or environment variables during a test.
+
+Example usage:
+
+def test_api(monkeypatch):
+    def mock_get():
+        return "mocked response"
+    monkeypatch.setattr("requests.get", mock_get)
+-------------------------------------------------------------------------------------------------------
+
+Advanced Topics --->
+
+--------------------------------------------------------------------------------------------------------
+
+What is a Pytest plugin?
+A Pytest plugin is an extension that adds extra functionality to Pytest.
+Plugins can provide new fixtures, hooks, markers, or reporting tools.
+
+How do you install and use a Pytest plugin?
+Use pip install plugin-name to install. Pytest will auto-discover it. For example:
+
+pip install pytest-cov
+pytest --cov=my_module
+
+Have you used any Pytest plugins?
+
+Yes! Common plugins include:
+pytest-cov for coverage reports
+pytest-xdist for parallel test execution
+pytest-mock for mocking with mocker fixture
+pytest-html for generating HTML reports
+
+What is conftest.py and how is it related to plugins?
+
+conftest.py is a local plugin file where you define shared fixtures or hooks for a test directory.
+Pytest treats it like a plugin but scoped to your project.
+
+How does Pytest report test results?
+
+Pytest shows results in the terminal with symbols:
+. for passed
+F for failed
+s for skipped You can increase verbosity with -v or -vv.
+
+How do you generate a coverage report?
+Install pytest-cov and run:
+    pytest --cov=my_module
+You can also generate an HTML report:
+    pytest --cov=my_module --cov-report=html
+
+How do you run tests in parallel?
+Use the pytest-xdist plugin: pytest -n 4 runs tests across 4 CPUs.
+
+How do you generate an HTML test report?
+Install pytest-html and run:
+    pytest --html=report.html
+This creates a styled HTML file with test results.
+
+How do you generate a JUnit XML report?
+Answer: Use the --junitxml option:
+    pytest --junitxml=report.xml
+This is useful for CI tools like Jenkins.
+
+How do you customize test output?
+You can use:
+-v for verbose output
+-s to show print statements
+--tb=short or --tb=long to control traceback style
+Plugins like pytest-sugar for prettier output
+
+How do you test for exceptions?
+
+import pytest
+
+def test_error():
+    with pytest.raises(ValueError):
+        int("invalid")
+
+What is pytest.ini used for?
+It stores configuration settings like markers, log levels, and test paths.
+
+How do you measure code coverage?
+Install pytest-cov and run: pytest --cov=my_module
